@@ -1,0 +1,12 @@
+export type TaskStatus = 'pending' | 'in-progress' | 'completed';
+
+export interface TaskDTO {
+  id: string;
+  title: string;
+  description?: string;
+  status: TaskStatus;
+  // serialized by backend as ISO string
+  createdAt: string;
+}
+
+
