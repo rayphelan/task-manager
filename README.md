@@ -59,6 +59,20 @@ Troubleshooting:
 - Verify `.env` contains `MONGODB_URI=mongodb://localhost:27017` and `MONGODB_DB_NAME=task_manager_dev`.
 - Check the server logs in the dev terminal for connection errors.
 
+## Backend: run tests
+
+From the `backend/` directory:
+
+```bash
+cd backend
+npm test          # run tests once (Vitest)
+npm run test:watch # watch mode
+```
+
+Notes:
+- Tests use an in-memory MongoDB via `mongodb-memory-server`, so Docker is not required to run them.
+- Includes tests for the `/db/ping` route and the `tasks` collection schema/validation.
+
 ## Frontend: run tests
 
 From the `frontend/` directory:
