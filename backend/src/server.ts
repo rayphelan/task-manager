@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express, { type Express, type Request, type Response } from 'express';
 import { connectToDatabase, getDatabase } from './db.js';
 import { ensureTasksCollection } from './setup/tasksCollection.js';
+import { errorHandler } from './http/middleware/errorHandler.js';
+import { notFound } from './http/middleware/notFound.js';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
@@ -21,6 +23,10 @@ export async function start(): Promise<void> {
   });
 }
 
+// core middleware
+app.use(express.json());
+
+// health route remains
 app.get('/db/ping', async (_req: Request, res: Response) => {
   try {
     const db = getDatabase();
@@ -30,6 +36,10 @@ app.get('/db/ping', async (_req: Request, res: Response) => {
     res.status(500).json({ ok: false });
   }
 });
+
+// not found + error handling
+app.use(notFound);
+app.use(errorHandler);
 
 // ESM equivalent of require.main === module
 if (fileURLToPath(import.meta.url) === process.argv[1]) {
