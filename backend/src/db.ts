@@ -1,9 +1,11 @@
-import { MongoClient } from 'mongodb';
+import { MongoClient, type Db } from 'mongodb';
 
-let mongoClient = null;
-let database = null;
+let mongoClient: MongoClient | null = null;
+let database: Db | null = null;
 
-export async function connectToDatabase({ uri, dbName }) {
+export async function connectToDatabase(params: { uri: string; dbName: string }): Promise<Db> {
+  const { uri, dbName } = params;
+
   if (database && mongoClient) {
     return database;
   }
@@ -24,14 +26,14 @@ export async function connectToDatabase({ uri, dbName }) {
   return database;
 }
 
-export function getDatabase() {
+export function getDatabase(): Db {
   if (!database) {
     throw new Error('getDatabase: Database connection has not been initialized');
   }
   return database;
 }
 
-export async function closeDatabase() {
+export async function closeDatabase(): Promise<void> {
   if (mongoClient) {
     await mongoClient.close();
   }

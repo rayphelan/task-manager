@@ -1,15 +1,15 @@
 import dotenv from 'dotenv';
-import express from 'express';
+import express, { type Express } from 'express';
 import { connectToDatabase } from './db.js';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
 
-export const app = express();
+export const app: Express = express();
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-export async function start() {
+export async function start(): Promise<void> {
   const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
   const dbName = process.env.MONGODB_DB_NAME || 'task_manager_dev';
   await connectToDatabase({ uri, dbName });
