@@ -1,7 +1,7 @@
 export function Table({ children }: { children: React.ReactNode }) {
   return (
-    <div className="w-full overflow-hidden rounded-md border border-gray-200 dark:border-gray-700">
-      <div className="w-full divide-y divide-gray-200 dark:divide-gray-700">{children}</div>
+    <div className="w-full md:overflow-hidden md:rounded-md md:border md:border-gray-200 md:dark:border-gray-700">
+      <div className="w-full md:divide-y md:divide-gray-200 md:dark:divide-gray-700">{children}</div>
     </div>
   );
 }
@@ -11,7 +11,7 @@ export function THead({ children }: { children: React.ReactNode }) {
 }
 
 export function TBody({ children }: { children: React.ReactNode }) {
-  return <div className="w-full bg-white dark:bg-gray-900 space-y-3 md:space-y-0">{children}</div>;
+  return <div className="w-full bg-transparent dark:bg-transparent space-y-3 md:space-y-0 md:bg-white md:dark:bg-gray-900">{children}</div>;
 }
 
 export function TRow({ children, onClick }: { children: React.ReactNode; onClick?: () => void }) {
