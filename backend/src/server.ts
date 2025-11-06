@@ -51,7 +51,7 @@ app.get('/db/ping', async (_req: Request, res: Response) => {
     const db = getDatabase();
     await db.command({ ping: 1 });
     res.json({ ok: true });
-  } catch (error) {
+  } catch {
     res.status(500).json({ ok: false });
   }
 });

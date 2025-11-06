@@ -2,9 +2,10 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { DeleteConfirmModal } from './DeleteConfirmModal';
 
+type UiState = { ui: { deleteConfirmForId?: string } };
 vi.mock('../../store/hooks', async () => ({
   useAppDispatch: () => vi.fn(),
-  useAppSelector: (sel: any) => sel({ ui: { deleteConfirmForId: '1' } }),
+  useAppSelector: (sel: (state: UiState) => unknown) => sel({ ui: { deleteConfirmForId: '1' } }),
 }));
 
 vi.mock('../../store/tasksApi', async () => ({
@@ -17,5 +18,3 @@ describe('DeleteConfirmModal', () => {
     expect(screen.getByText(/delete this task/i)).toBeInTheDocument();
   });
 });
-
-

@@ -1,8 +1,6 @@
 import { cn } from '../../lib/cn';
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
-
-export function Input({ className, ...props }: InputProps) {
+export function Input({ className, ...props }: React.InputHTMLAttributes<HTMLInputElement>) {
   return (
     <input
       className={cn(
@@ -13,5 +11,3 @@ export function Input({ className, ...props }: InputProps) {
     />
   );
 }
-
-

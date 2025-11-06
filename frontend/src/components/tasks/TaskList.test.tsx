@@ -8,30 +8,49 @@ vi.mock('../../store/tasksApi', async () => {
   };
 });
 
+type UiState = { ui: { createModalOpen: boolean } };
 vi.mock('../../store/hooks', async () => ({
   useAppDispatch: () => vi.fn(),
-  useAppSelector: (sel: any) => sel({ ui: { createModalOpen: false } }),
+  useAppSelector: (sel: (state: UiState) => unknown) => sel({ ui: { createModalOpen: false } }),
 }));
 
 const { useGetTasksQuery } = await import('../../store/tasksApi');
+import type { Mock } from 'vitest';
+const mockedUseGetTasksQuery = useGetTasksQuery as unknown as Mock;
 
 describe('TaskList', () => {
   it('shows loading state', () => {
-    (useGetTasksQuery as any).mockReturnValue({ data: undefined, isLoading: true, isError: false, refetch: vi.fn() });
+    mockedUseGetTasksQuery.mockReturnValue({
+      data: undefined,
+      isLoading: true,
+      isError: false,
+      refetch: vi.fn(),
+    });
     render(<TaskList />);
     expect(screen.getByText(/Loading tasks/i)).toBeInTheDocument();
   });
 
   it('shows empty state', () => {
-    (useGetTasksQuery as any).mockReturnValue({ data: [], isLoading: false, isError: false, refetch: vi.fn() });
+    mockedUseGetTasksQuery.mockReturnValue({
+      data: [],
+      isLoading: false,
+      isError: false,
+      refetch: vi.fn(),
+    });
     render(<TaskList />);
     expect(screen.getByText(/No tasks yet/i)).toBeInTheDocument();
   });
 
   it('renders rows', () => {
-    (useGetTasksQuery as any).mockReturnValue({
+    mockedUseGetTasksQuery.mockReturnValue({
       data: [
-        { id: '1', title: 'A', description: 'D', status: 'pending', createdAt: new Date().toISOString() },
+        {
+          id: '1',
+          title: 'A',
+          description: 'D',
+          status: 'pending',
+          createdAt: new Date().toISOString(),
+        },
       ],
       isLoading: false,
       isError: false,
@@ -42,5 +61,3 @@ describe('TaskList', () => {
     expect(screen.getByText('D')).toBeInTheDocument();
   });
 });
-
-
