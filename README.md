@@ -30,7 +30,6 @@ mongodb://localhost:27017
 1. Start MongoDB (Docker):
 
 ```bash
-cd /Users/rayphelan/Documents/cursor/task-manager-2
 docker compose up -d
 ```
 
@@ -65,11 +64,12 @@ Troubleshooting:
 From the `frontend/` directory:
 
 ```bash
-cd /Users/rayphelan/Documents/cursor/task-manager-2/frontend
+cd frontend
 npm test           # run tests once
 npm run test:watch # watch mode
 ```
 
 Notes:
+
 - Vitest is configured with jsdom and React Testing Library in `vite.config.ts`.
 - No backend or Docker is required to run frontend tests.
