@@ -55,6 +55,21 @@ curl http://localhost:3000/db/ping
 ```
 
 Troubleshooting:
+
 - Ensure Docker Desktop is running and `docker ps` shows the MongoDB container.
 - Verify `.env` contains `MONGODB_URI=mongodb://localhost:27017` and `MONGODB_DB_NAME=task_manager_dev`.
 - Check the server logs in the dev terminal for connection errors.
+
+## Frontend: run tests
+
+From the `frontend/` directory:
+
+```bash
+cd /Users/rayphelan/Documents/cursor/task-manager-2/frontend
+npm test           # run tests once
+npm run test:watch # watch mode
+```
+
+Notes:
+- Vitest is configured with jsdom and React Testing Library in `vite.config.ts`.
+- No backend or Docker is required to run frontend tests.
