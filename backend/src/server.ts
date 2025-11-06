@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import express, { type Express, type Request, type Response } from 'express';
+import cors from 'cors';
 import { connectToDatabase, getDatabase } from './db.js';
 import { ensureTasksCollection } from './setup/tasksCollection.js';
 import { errorHandler } from './http/middleware/errorHandler.js';
@@ -25,6 +26,12 @@ export async function start(): Promise<void> {
 }
 
 // core middleware
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+  }),
+);
 app.use(express.json());
 
 // api routes
