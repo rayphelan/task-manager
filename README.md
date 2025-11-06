@@ -73,3 +73,31 @@ Notes:
 
 - Vitest is configured with jsdom and React Testing Library in `vite.config.ts`.
 - No backend or Docker is required to run frontend tests.
+
+## MongoDB: verify tasks collection
+
+Ensure the backend has started at least once (it creates/updates the collection schema on startup):
+
+```bash
+cd backend
+npm run dev
+```
+
+Open MongoDB shell and select the database (match `MONGODB_DB_NAME` from `.env`):
+
+```bash
+mongosh
+use task_manager_dev
+```
+
+Show the collection validator:
+
+```javascript
+db.getCollectionInfos({ name: 'tasks' })
+```
+
+Show indexes on the `tasks` collection:
+
+```javascript
+db.tasks.getIndexes()
+```
