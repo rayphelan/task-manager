@@ -49,7 +49,7 @@ export function TaskList() {
           <THead>
             <TRow>
               <TCell span={3}>Title</TCell>
-              <TCell span={5}>Description</TCell>
+              <TCell span={4}>Description</TCell>
               <TCell span={2}>Status</TCell>
               <TCell span={2} className="text-right">Actions</TCell>
             </TRow>
@@ -57,16 +57,16 @@ export function TaskList() {
           <TBody>
             {rows.map((t) => (
               <TRow key={t.id}>
-                <TCell span={3}>
+                <TCell span={12} className="md:col-span-3">
                   <div className="truncate font-medium">{t.title}</div>
                 </TCell>
-                <TCell span={5}>
+                <TCell span={12} className="md:col-span-4">
                   <div className="truncate text-sm text-gray-600 dark:text-gray-300">{t.description || '—'}</div>
                 </TCell>
-                <TCell span={2}>
+                <TCell span={12} className="md:col-span-2">
                   <StatusBadge status={t.status} />
                 </TCell>
-                <TCell span={2} className="flex justify-end space-x-2">
+                <TCell span={12} className="mt-2 flex w-full flex-col justify-end gap-2 md:col-span-2 md:mt-0 md:flex-row md:space-x-2">
                   <Button variant="secondary" onClick={() => handleEdit(t.id)}>Edit</Button>
                   <Button variant="danger" onClick={() => handleDelete(t.id)}>Delete</Button>
                 </TCell>
