@@ -64,13 +64,11 @@ export async function updateTaskStatus(id: string, status: TaskStatus): Promise<
   if (!ObjectId.isValid(id)) return null;
   const db = getDatabase();
   const collection = db.collection<TaskDocument>('tasks');
-  const result = await collection.findOneAndUpdate(
-    { _id: new ObjectId(id) },
-    { $set: { status } },
-    { returnDocument: 'after' },
-  );
-  const doc = (result && (result as unknown as { value: WithId<TaskDocument> | null }).value) || null;
-  return doc ? toTaskDTO(doc) : null;
+  const filter = { _id: new ObjectId(id) };
+  const upd = await collection.updateOne(filter, { $set: { status } });
+  if (upd.matchedCount === 0) return null;
+  const found = await collection.findOne(filter);
+  return found ? toTaskDTO(found as WithId<TaskDocument>) : null;
 }
 
 function toTaskDTO(doc: WithId<TaskDocument>): TaskDTO {
