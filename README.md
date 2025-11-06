@@ -116,3 +116,60 @@ Show indexes on the `tasks` collection:
 ```javascript
 db.tasks.getIndexes();
 ```
+
+## API usage (Tasks)
+
+Start backend (requires MongoDB running):
+
+```bash
+cd backend
+npm run dev
+```
+
+Base URL: `http://localhost:3000`
+
+Response format:
+
+```json
+{
+  "success": true,
+  "data": { }
+}
+```
+
+Errors:
+
+```json
+{
+  "success": false,
+  "error": "message"
+}
+```
+
+Create task:
+
+```bash
+curl -X POST http://localhost:3000/api/tasks \
+  -H 'Content-Type: application/json' \
+  -d '{"title":"My Task","description":"optional","status":"pending"}'
+```
+
+List tasks (optional filters):
+
+```bash
+curl 'http://localhost:3000/api/tasks?status=pending&limit=20'
+```
+
+Get single task:
+
+```bash
+curl http://localhost:3000/api/tasks/<id>
+```
+
+Update task status:
+
+```bash
+curl -X PATCH http://localhost:3000/api/tasks/<id> \
+  -H 'Content-Type: application/json' \
+  -d '{"status":"completed"}'
+```
