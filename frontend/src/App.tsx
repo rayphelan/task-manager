@@ -1,6 +1,7 @@
 import { TaskList } from './components/tasks/TaskList'
 import { CreateTaskModal } from './components/tasks/CreateTaskModal'
 import { EditTaskModal } from './components/tasks/EditTaskModal'
+import { DeleteConfirmModal } from './components/tasks/DeleteConfirmModal'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <TaskList />
       <CreateTaskModal />
       <EditTaskModal />
+      <DeleteConfirmModal />
     </div>
   )
 }
