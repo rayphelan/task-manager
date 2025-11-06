@@ -163,3 +163,34 @@ Show indexes on the `tasks` collection:
 ```javascript
 db.tasks.getIndexes();
 ```
+
+## Troubleshooting: free dev server port 5173
+
+Check what is listening on port 5173:
+
+```bash
+lsof -nP -iTCP:5173 -sTCP:LISTEN
+# or
+lsof -i :5173
+```
+
+Kill the process (replace <PID> with the number from lsof):
+
+```bash
+kill <PID>         # graceful
+kill -9 <PID>      # force if needed
+```
+
+One-liners:
+
+```bash
+lsof -t -iTCP:5173 -sTCP:LISTEN | xargs kill
+# or force
+lsof -t -iTCP:5173 -sTCP:LISTEN | xargs kill -9
+```
+
+Convenience (optional):
+
+```bash
+npx kill-port 5173
+```
