@@ -2,14 +2,23 @@
 
 ## Installation
 
+### Database (MongoDB)
+
+- Prerequisite: Docker Desktop installed and running
+
+```bash
+docker compose up -d    # start MongoDB
+```
+
+- Local connection string: `mongodb://localhost:27017`
+
 ### Backend
 
 ```bash
 cd backend
 npm install
 cp env.example .env
-# start the server (requires Mongo running):
-npm run dev
+npm run dev             # start the server (requires Mongo running)
 ```
 
 ### Frontend
@@ -17,20 +26,9 @@ npm run dev
 ```bash
 cd frontend
 npm install
-cp env.example .env # optional; adjust VITE_API_BASE_URL if not localhost:3000
-npm run dev         # app runs at http://localhost:5173
+cp env.example .env     # optional; adjust VITE_API_BASE_URL if not localhost:3000
+npm run dev             # app runs at http://localhost:5173
 ```
-
-### Database (MongoDB)
-
-- Prerequisite: Docker Desktop installed and running
-
-```bash
-docker compose up -d    # start MongoDB
-docker compose down     # stop MongoDB (data persisted in volume 'mongo-data')
-```
-
-- Local connection string: `mongodb://localhost:27017`
 
 ## Testing
 
@@ -43,6 +41,7 @@ npm run test:watch # watch mode
 ```
 
 Notes:
+
 - Tests use an in-memory MongoDB via `mongodb-memory-server`, so Docker is not required to run them.
 - Includes tests for the `/db/ping` route and the `tasks` collection schema/validation.
 
@@ -55,6 +54,7 @@ npm run test:watch # watch mode
 ```
 
 Notes:
+
 - Vitest is configured with jsdom and React Testing Library in `vite.config.ts`.
 - No backend or Docker is required to run frontend tests.
 
@@ -74,7 +74,7 @@ Response format:
 ```json
 {
   "success": true,
-  "data": { }
+  "data": {}
 }
 ```
 
