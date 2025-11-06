@@ -1,14 +1,15 @@
-'use strict';
+import dotenv from 'dotenv';
+import express from 'express';
+import { connectToDatabase } from './db.js';
+import { fileURLToPath } from 'url';
 
-require('dotenv').config();
-const express = require('express');
-const { connectToDatabase } = require('./db');
+dotenv.config();
 
-const app = express();
+export const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-async function start() {
+export async function start() {
   const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
   const dbName = process.env.MONGODB_DB_NAME || 'task_manager_dev';
   await connectToDatabase({ uri, dbName });
@@ -18,13 +19,12 @@ async function start() {
   });
 }
 
-if (require.main === module) {
+// ESM equivalent of require.main === module
+if (fileURLToPath(import.meta.url) === process.argv[1]) {
   start().catch((error) => {
     console.error('Failed to start server', error);
     process.exit(1);
   });
 }
-
-module.exports = { app, start };
 
 

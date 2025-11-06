@@ -1,11 +1,9 @@
-'use strict';
-
-const { MongoClient } = require('mongodb');
+import { MongoClient } from 'mongodb';
 
 let mongoClient = null;
 let database = null;
 
-async function connectToDatabase({ uri, dbName }) {
+export async function connectToDatabase({ uri, dbName }) {
   if (database && mongoClient) {
     return database;
   }
@@ -26,25 +24,19 @@ async function connectToDatabase({ uri, dbName }) {
   return database;
 }
 
-function getDatabase() {
+export function getDatabase() {
   if (!database) {
     throw new Error('getDatabase: Database connection has not been initialized');
   }
   return database;
 }
 
-async function closeDatabase() {
+export async function closeDatabase() {
   if (mongoClient) {
     await mongoClient.close();
   }
   mongoClient = null;
   database = null;
 }
-
-module.exports = {
-  connectToDatabase,
-  getDatabase,
-  closeDatabase,
-};
 
 
