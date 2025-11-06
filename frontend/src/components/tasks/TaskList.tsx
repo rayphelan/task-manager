@@ -18,7 +18,7 @@ export function TaskList() {
   const rows = useMemo(() => tasks ?? [], [tasks]);
 
   return (
-    <div className="mx-auto max-w-5xl p-4 text-gray-900 dark:text-gray-100">
+    <div className="w-full p-4 text-gray-900 dark:text-gray-100">
       <div className="mb-4 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Tasks</h1>
         <Button onClick={handleAdd}>Add Task</Button>

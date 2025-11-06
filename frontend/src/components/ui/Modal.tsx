@@ -28,8 +28,8 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="absolute inset-0 bg-black/60" />
-      <div className={cn('relative z-10 w-full max-w-lg rounded-lg bg-white p-4 shadow-lg dark:bg-gray-900')}>
+      <div className="absolute inset-0 bg-slate-900/60" />
+      <div className={cn('relative z-10 w-full max-w-lg rounded-lg bg-white p-4 shadow-lg dark:bg-slate-900')}>
         {title && <h2 className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h2>}
         {children}
       </div>
