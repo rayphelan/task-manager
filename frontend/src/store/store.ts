@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { tasksApi } from './tasksApi';
+import uiReducer from './uiSlice';
 
 export const store = configureStore({
   reducer: {
     [tasksApi.reducerPath]: tasksApi.reducer,
+    ui: uiReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(tasksApi.middleware),
 });
