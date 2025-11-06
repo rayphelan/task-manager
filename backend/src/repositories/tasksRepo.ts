@@ -1,5 +1,8 @@
 import type { TaskDTO, TaskStatus } from '../models/task.js';
 import { TaskCreateInputSchema, TaskUpdateInputSchema, type TaskCreateInput, type TaskUpdateInput } from '../validation/taskSchemas.js';
+import { getDatabase } from '../db.js';
+import { ObjectId, type WithId } from 'mongodb';
+import type { TaskDocument } from '../models/task.js';
 
 // Validation helpers (runtime):
 export function validateTaskCreateInput(input: unknown): TaskCreateInput {
@@ -17,15 +20,67 @@ export function validateTaskUpdateInput(input: unknown): TaskUpdateInput {
 
 // Repository function signatures (implementation will follow):
 export async function createTask(input: TaskCreateInput): Promise<TaskDTO> {
-  throw new Error('Not implemented');
+  // Ensure defaults via validation layer as defense-in-depth
+  const validated = validateTaskCreateInput(input);
+  const title = validated.title;
+  const description = validated.description;
+  const status: TaskStatus = (validated.status ?? 'pending');
+  const createdAt = new Date();
+  const db = getDatabase();
+  const collection = db.collection<TaskDocument>('tasks');
+  const insertResult = await collection.insertOne({ title, description, status, createdAt } as unknown as TaskDocument);
+  const doc: WithId<TaskDocument> = {
+    _id: insertResult.insertedId as unknown as ObjectId,
+    title,
+    description,
+    status,
+    createdAt,
+  };
+  return toTaskDTO(doc);
 }
 
 export async function getTaskById(id: string): Promise<TaskDTO | null> {
-  throw new Error('Not implemented');
+  if (!ObjectId.isValid(id)) return null;
+  const db = getDatabase();
+  const collection = db.collection<TaskDocument>('tasks');
+  const found = await collection.findOne({ _id: new ObjectId(id) });
+  return found ? toTaskDTO(found as WithId<TaskDocument>) : null;
 }
 
 export async function listTasks(params?: { status?: TaskStatus; limit?: number }): Promise<TaskDTO[]> {
-  throw new Error('Not implemented');
+  const db = getDatabase();
+  const collection = db.collection<TaskDocument>('tasks');
+  const query: Record<string, unknown> = {};
+  if (params?.status) {
+    query.status = params.status;
+  }
+  const limit = params?.limit && params.limit > 0 ? params.limit : 50;
+  const cursor = collection.find(query).sort({ createdAt: -1 }).limit(limit);
+  const docs = (await cursor.toArray()) as WithId<TaskDocument>[];
+  return docs.map(toTaskDTO);
+}
+
+export async function updateTaskStatus(id: string, status: TaskStatus): Promise<TaskDTO | null> {
+  if (!ObjectId.isValid(id)) return null;
+  const db = getDatabase();
+  const collection = db.collection<TaskDocument>('tasks');
+  const result = await collection.findOneAndUpdate(
+    { _id: new ObjectId(id) },
+    { $set: { status } },
+    { returnDocument: 'after' },
+  );
+  const doc = (result && (result as unknown as { value: WithId<TaskDocument> | null }).value) || null;
+  return doc ? toTaskDTO(doc) : null;
+}
+
+function toTaskDTO(doc: WithId<TaskDocument>): TaskDTO {
+  return {
+    id: doc._id.toString(),
+    title: doc.title,
+    description: doc.description,
+    status: doc.status,
+    createdAt: doc.createdAt,
+  };
 }
 
 
