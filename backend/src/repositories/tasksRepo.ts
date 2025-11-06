@@ -28,11 +28,16 @@ export async function createTask(input: TaskCreateInput): Promise<TaskDTO> {
   const createdAt = new Date();
   const db = getDatabase();
   const collection = db.collection<TaskDocument>('tasks');
-  const insertResult = await collection.insertOne({ title, description, status, createdAt } as unknown as TaskDocument);
+  // Only include description if it is defined; avoids schema/type issues when description is omitted
+  const toInsert: Partial<TaskDocument> = { title, status, createdAt };
+  if (typeof description === 'string') {
+    toInsert.description = description;
+  }
+  const insertResult = await collection.insertOne(toInsert as unknown as TaskDocument);
   const doc: WithId<TaskDocument> = {
     _id: insertResult.insertedId as unknown as ObjectId,
     title,
-    description,
+    description: toInsert.description,
     status,
     createdAt,
   };
