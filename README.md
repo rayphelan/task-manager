@@ -24,5 +24,3 @@ mongodb://localhost:27017
 - Data persists in the named volume `mongo-data` defined in `docker-compose.yml`.
 
 - Tests in the backend will run against an in-memory MongoDB, so Docker is not required for `npm test`.
-
-
