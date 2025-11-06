@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
-import express, { type Express } from 'express';
-import { connectToDatabase } from './db.js';
+import express, { type Express, type Request, type Response } from 'express';
+import { connectToDatabase, getDatabase } from './db.js';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
@@ -18,6 +18,16 @@ export async function start(): Promise<void> {
     console.log(`Server listening on http://localhost:${PORT}`);
   });
 }
+
+app.get('/db/ping', async (_req: Request, res: Response) => {
+  try {
+    const db = getDatabase();
+    await db.command({ ping: 1 });
+    res.json({ ok: true });
+  } catch (error) {
+    res.status(500).json({ ok: false });
+  }
+});
 
 // ESM equivalent of require.main === module
 if (fileURLToPath(import.meta.url) === process.argv[1]) {
