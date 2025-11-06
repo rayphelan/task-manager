@@ -173,3 +173,17 @@ curl -X PATCH http://localhost:3000/api/tasks/<id> \
   -H 'Content-Type: application/json' \
   -d '{"status":"completed"}'
 ```
+
+Edit task (title/description/status):
+
+```bash
+curl -X PATCH http://localhost:3000/api/tasks/<id> \
+  -H 'Content-Type: application/json' \
+  -d '{"title":"New Title","description":"New description","status":"in-progress"}'
+```
+
+Delete task:
+
+```bash
+curl -X DELETE http://localhost:3000/api/tasks/<id>
+```
