@@ -70,6 +70,7 @@ npm run test:watch # watch mode
 ```
 
 Notes:
+
 - Tests use an in-memory MongoDB via `mongodb-memory-server`, so Docker is not required to run them.
 - Includes tests for the `/db/ping` route and the `tasks` collection schema/validation.
 
@@ -107,11 +108,11 @@ use task_manager_dev
 Show the collection validator:
 
 ```javascript
-db.getCollectionInfos({ name: 'tasks' })
+db.getCollectionInfos({ name: 'tasks' });
 ```
 
 Show indexes on the `tasks` collection:
 
 ```javascript
-db.tasks.getIndexes()
+db.tasks.getIndexes();
 ```
