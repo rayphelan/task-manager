@@ -4,6 +4,7 @@ import { connectToDatabase, getDatabase } from './db.js';
 import { ensureTasksCollection } from './setup/tasksCollection.js';
 import { errorHandler } from './http/middleware/errorHandler.js';
 import { notFound } from './http/middleware/notFound.js';
+import tasksRouter from './routes/tasks.js';
 import { fileURLToPath } from 'url';
 
 dotenv.config();
@@ -25,6 +26,9 @@ export async function start(): Promise<void> {
 
 // core middleware
 app.use(express.json());
+
+// api routes
+app.use('/api/tasks', tasksRouter);
 
 // health route remains
 app.get('/db/ping', async (_req: Request, res: Response) => {
