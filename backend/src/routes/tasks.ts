@@ -2,7 +2,14 @@ import { Router, type Request, type Response, type NextFunction } from 'express'
 import { created, success } from '../http/responses.js';
 import { badRequest } from '../http/errors.js';
 import { TaskStatusSchema, TaskUpdateInputSchema } from '../validation/taskSchemas.js';
-import { createTask, getTaskById, listTasks, validateTaskCreateInput, updateTask, deleteTask } from '../repositories/tasksRepo.js';
+import {
+  createTask,
+  getTaskById,
+  listTasks,
+  validateTaskCreateInput,
+  updateTask,
+  deleteTask,
+} from '../repositories/tasksRepo.js';
 
 const router = Router();
 
@@ -73,5 +80,3 @@ router.delete('/:id', async (req: Request, res: Response, next: NextFunction) =>
 });
 
 export default router;
-
-

@@ -1,10 +1,14 @@
 import type { TaskDTO, TaskStatus } from '../models/task.js';
-import { TaskCreateInputSchema, TaskUpdateInputSchema, type TaskCreateInput, type TaskUpdateInput } from '../validation/taskSchemas.js';
+import {
+  TaskCreateInputSchema,
+  TaskUpdateInputSchema,
+  type TaskCreateInput,
+  type TaskUpdateInput,
+} from '../validation/taskSchemas.js';
 import { getDatabase } from '../db.js';
 import { ObjectId, type WithId } from 'mongodb';
 import type { TaskDocument } from '../models/task.js';
 
-// Validation helpers (runtime):
 export function validateTaskCreateInput(input: unknown): TaskCreateInput {
   const parsed = TaskCreateInputSchema.parse(input);
   return {
@@ -18,17 +22,14 @@ export function validateTaskUpdateInput(input: unknown): TaskUpdateInput {
   return TaskUpdateInputSchema.parse(input);
 }
 
-// Repository function signatures (implementation will follow):
 export async function createTask(input: TaskCreateInput): Promise<TaskDTO> {
-  // Ensure defaults via validation layer as defense-in-depth
   const validated = validateTaskCreateInput(input);
   const title = validated.title;
   const description = validated.description;
-  const status: TaskStatus = (validated.status ?? 'pending');
+  const status: TaskStatus = validated.status ?? 'pending';
   const createdAt = new Date();
   const db = getDatabase();
   const collection = db.collection<TaskDocument>('tasks');
-  // Only include description if it is defined; avoids schema/type issues when description is omitted
   const toInsert: Partial<TaskDocument> = { title, status, createdAt };
   if (typeof description === 'string') {
     toInsert.description = description;
@@ -52,7 +53,10 @@ export async function getTaskById(id: string): Promise<TaskDTO | null> {
   return found ? toTaskDTO(found as WithId<TaskDocument>) : null;
 }
 
-export async function listTasks(params?: { status?: TaskStatus; limit?: number }): Promise<TaskDTO[]> {
+export async function listTasks(params?: {
+  status?: TaskStatus;
+  limit?: number;
+}): Promise<TaskDTO[]> {
   const db = getDatabase();
   const collection = db.collection<TaskDocument>('tasks');
   const query: Record<string, unknown> = {};
@@ -87,7 +91,10 @@ export async function updateTask(
   if (Object.prototype.hasOwnProperty.call(updates, 'title') && typeof updates.title === 'string') {
     $set.title = updates.title;
   }
-  if (Object.prototype.hasOwnProperty.call(updates, 'description') && typeof updates.description === 'string') {
+  if (
+    Object.prototype.hasOwnProperty.call(updates, 'description') &&
+    typeof updates.description === 'string'
+  ) {
     $set.description = updates.description;
   }
   if (Object.prototype.hasOwnProperty.call(updates, 'status') && updates.status) {
@@ -118,5 +125,3 @@ function toTaskDTO(doc: WithId<TaskDocument>): TaskDTO {
     createdAt: doc.createdAt,
   };
 }
-
-

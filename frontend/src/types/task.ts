@@ -5,6 +5,5 @@ export interface TaskDTO {
   title: string;
   description?: string;
   status: TaskStatus;
-  // serialized by backend as ISO string
   createdAt: string;
 }

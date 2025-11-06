@@ -11,5 +11,3 @@ export function created<T>(res: Response, data: T) {
 export function failure(res: Response, status: number, error: string) {
   return res.status(status).json({ success: false, error });
 }
-
-

@@ -27,5 +27,3 @@ describe('GET /db/ping', () => {
     expect(response.body).toEqual({ ok: true });
   });
 });
-
-

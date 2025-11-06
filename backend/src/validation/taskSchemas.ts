@@ -1,7 +1,11 @@
 import { z } from 'zod';
 import type { TaskStatus } from '../models/task.js';
 
-export const TaskStatusSchema = z.enum(['pending', 'in-progress', 'completed']) as z.ZodType<TaskStatus>;
+export const TaskStatusSchema = z.enum([
+  'pending',
+  'in-progress',
+  'completed',
+]) as z.ZodType<TaskStatus>;
 
 // Input for creating a task (client payload):
 // - title required, non-empty
@@ -29,5 +33,3 @@ export const TaskUpdateInputSchema = z
 
 export type TaskCreateInput = z.infer<typeof TaskCreateInputSchema>;
 export type TaskUpdateInput = z.infer<typeof TaskUpdateInputSchema>;
-
-

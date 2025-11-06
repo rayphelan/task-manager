@@ -15,5 +15,3 @@ export function errorHandler(err: unknown, _req: Request, res: Response, _next: 
   const message = err instanceof Error ? err.message : 'Internal server error';
   return failure(res, 500, message);
 }
-
-

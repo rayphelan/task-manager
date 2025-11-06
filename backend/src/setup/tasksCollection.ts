@@ -22,7 +22,6 @@ export async function ensureTasksCollection(db: Db): Promise<void> {
       validationLevel: 'strict',
     });
   } else {
-    // Update validator if collection already exists
     await db.command({
       collMod: COLLECTION_NAME,
       validator: { $jsonSchema: taskJsonSchema },
@@ -30,12 +29,9 @@ export async function ensureTasksCollection(db: Db): Promise<void> {
     });
   }
 
-  // Ensure indexes
   const collection = db.collection(COLLECTION_NAME);
   await collection.createIndexes([
     { key: { status: 1 }, name: 'idx_tasks_status' },
     { key: { createdAt: -1 }, name: 'idx_tasks_createdAt_desc' },
   ]);
 }
-
-

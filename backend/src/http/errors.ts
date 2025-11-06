@@ -13,5 +13,3 @@ export function badRequest(message: string) {
 export function notFound(message: string) {
   return new AppError(message, 404);
 }
-
-

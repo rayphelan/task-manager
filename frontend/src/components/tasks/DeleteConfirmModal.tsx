@@ -24,7 +24,7 @@ export function DeleteConfirmModal() {
       await deleteTask(id).unwrap();
       onClose();
     } catch {
-      // error string is shown below
+      console.error('Failed to delete task');
     }
   }, [id, deleteTask, onClose]);
 

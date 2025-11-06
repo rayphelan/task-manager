@@ -26,10 +26,10 @@ export async function start(): Promise<void> {
 }
 
 // core middleware
-const allowedOrigins = (process.env.CORS_ORIGINS?.split(',') ?? [
+const allowedOrigins = process.env.CORS_ORIGINS?.split(',') ?? [
   'http://localhost:5173',
   'http://localhost:5174',
-]);
+];
 app.use(
   cors({
     origin: (origin, callback) => {
@@ -67,5 +67,3 @@ if (fileURLToPath(import.meta.url) === process.argv[1]) {
     process.exit(1);
   });
 }
-
-

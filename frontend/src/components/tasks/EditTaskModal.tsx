@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, FormEvent } from 'react';
+import { useState, useCallback, useEffect, type FormEvent } from 'react';
 import { Modal } from '../ui/Modal';
 import { Input } from '../ui/Input';
 import { Textarea } from '../ui/Textarea';
@@ -15,7 +15,6 @@ export function EditTaskModal() {
   const editingTaskId = useAppSelector((s) => s.ui.editingTaskId);
   const open = useAppSelector((s) => s.ui.editModalOpen);
   const { data, isFetching } = useGetTaskByIdQuery(editingTaskId ?? '', { skip: !editingTaskId });
-
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [status, setStatus] = useState<TaskStatus>('pending');

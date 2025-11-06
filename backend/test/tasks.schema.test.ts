@@ -38,7 +38,6 @@ describe('zod validation for task inputs', () => {
 
 describe('MongoDB $jsonSchema for tasks', () => {
   it('accepts a valid insert', async () => {
-    const { default: assert } = await import('node:assert/strict');
     const { getDatabase } = await import('../src/db.js');
     const db = getDatabase();
     const tasks = db.collection('tasks');
@@ -49,7 +48,7 @@ describe('MongoDB $jsonSchema for tasks', () => {
       status: 'pending',
       createdAt: now,
     });
-    assert.ok(result.insertedId);
+    expect(result.insertedId).toBeTruthy();
   });
 
   it('rejects missing title', async () => {
@@ -58,7 +57,7 @@ describe('MongoDB $jsonSchema for tasks', () => {
     const tasks = db.collection('tasks');
 
     await expect(
-      tasks.insertOne({ status: 'pending', createdAt: new Date() })
+      tasks.insertOne({ status: 'pending', createdAt: new Date() }),
     ).rejects.toBeTruthy();
   });
 
@@ -68,7 +67,7 @@ describe('MongoDB $jsonSchema for tasks', () => {
     const tasks = db.collection('tasks');
 
     await expect(
-      tasks.insertOne({ title: 'Bad', status: 'nope', createdAt: new Date() })
+      tasks.insertOne({ title: 'Bad', status: 'nope', createdAt: new Date() }),
     ).rejects.toBeTruthy();
   });
 
@@ -78,9 +77,7 @@ describe('MongoDB $jsonSchema for tasks', () => {
     const tasks = db.collection('tasks');
 
     await expect(
-      tasks.insertOne({ title: 'Missing Date', status: 'pending' })
+      tasks.insertOne({ title: 'Missing Date', status: 'pending' }),
     ).rejects.toBeTruthy();
   });
 });
-
-

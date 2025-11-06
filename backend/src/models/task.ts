@@ -16,5 +16,3 @@ export interface TaskDocument extends TaskBase {
 export interface TaskDTO extends TaskBase {
   id: string;
 }
-
-

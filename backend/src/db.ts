@@ -40,5 +40,3 @@ export async function closeDatabase(): Promise<void> {
   mongoClient = null;
   database = null;
 }
-
-

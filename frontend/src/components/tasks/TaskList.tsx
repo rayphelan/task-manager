@@ -53,7 +53,7 @@ export function TaskList() {
               <TCell span={3}>Title</TCell>
               <TCell span={4}>Description</TCell>
               <TCell span={2}>Status</TCell>
-              <TCell span={2} className="text-right">
+              <TCell span={3} className="text-right">
                 Actions
               </TCell>
             </TRow>
@@ -74,7 +74,7 @@ export function TaskList() {
                 </TCell>
                 <TCell
                   span={12}
-                  className="mt-2 flex w-full flex-col justify-end gap-2 md:col-span-2 md:mt-0 md:flex-row md:space-x-2"
+                  className="mt-2 flex w-full flex-col justify-end gap-2 md:col-span-3 md:mt-0 md:flex-row md:space-x-2"
                 >
                   <Button variant="secondary" onClick={() => handleEdit(t.id)}>
                     Edit
