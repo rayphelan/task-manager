@@ -47,7 +47,12 @@ export function EditTaskModal() {
         return;
       }
       try {
-        await updateTask({ id: editingTaskId, title: trimmed, description: description.trim() || undefined, status }).unwrap();
+        await updateTask({
+          id: editingTaskId,
+          title: trimmed,
+          description: description.trim() || undefined,
+          status,
+        }).unwrap();
         onClose();
       } catch (err) {
         const message = err instanceof Error ? err.message : 'Failed to update task';
@@ -60,9 +65,7 @@ export function EditTaskModal() {
   return (
     <Modal open={open} onClose={onClose} title="Edit Task">
       <form onSubmit={onSubmit} className="space-y-3">
-        {isFetching && (
-          <div className="text-sm text-gray-500">Loading…</div>
-        )}
+        {isFetching && <div className="text-sm text-gray-500">Loading…</div>}
         {!isFetching && (
           <>
             <div>
@@ -71,7 +74,11 @@ export function EditTaskModal() {
             </div>
             <div>
               <label className="mb-1 block text-sm">Description</label>
-              <Textarea value={description} onChange={(e) => setDescription(e.target.value)} rows={4} />
+              <Textarea
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                rows={4}
+              />
             </div>
             <div>
               <label className="mb-1 block text-sm">Status</label>
@@ -106,5 +113,3 @@ export function EditTaskModal() {
     </Modal>
   );
 }
-
-

@@ -22,5 +22,3 @@ export async function apiFetch<T>(path: string, init?: RequestInit): Promise<T> 
   const message = 'error' in json ? json.error : `Request failed with status ${res.status}`;
   throw new Error(message);
 }
-
-

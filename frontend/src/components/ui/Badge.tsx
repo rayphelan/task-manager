@@ -8,10 +8,14 @@ export function StatusBadge({ status, className }: { status: TaskStatus; classNa
     completed: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
   };
   return (
-    <span className={cn('inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium', map[status], className)}>
+    <span
+      className={cn(
+        'inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium',
+        map[status],
+        className,
+      )}
+    >
       {status}
     </span>
   );
 }
-
-

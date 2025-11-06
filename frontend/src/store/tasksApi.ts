@@ -71,5 +71,3 @@ export const {
   useUpdateTaskStatusMutation,
   useDeleteTaskMutation,
 } = tasksApi;
-
-

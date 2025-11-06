@@ -11,5 +11,3 @@ it('renders tasks heading', () => {
   );
   expect(screen.getByRole('heading', { name: /Tasks/i })).toBeInTheDocument();
 });
-
-

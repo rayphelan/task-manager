@@ -29,12 +29,16 @@ export function Modal({ open, onClose, title, children }: ModalProps) {
       }}
     >
       <div className="absolute inset-0 bg-black/80" />
-      <div className={cn('relative z-10 w-full max-w-lg rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-slate-900 mx-4 sm:mx-6 md:mx-0')}>
-        {title && <h2 className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h2>}
+      <div
+        className={cn(
+          'relative z-10 w-full max-w-lg rounded-lg border border-gray-200 bg-white p-4 shadow-lg dark:border-gray-700 dark:bg-slate-900 mx-4 sm:mx-6 md:mx-0',
+        )}
+      >
+        {title && (
+          <h2 className="mb-3 text-lg font-semibold text-gray-900 dark:text-gray-100">{title}</h2>
+        )}
         {children}
       </div>
     </div>
   );
 }
-
-

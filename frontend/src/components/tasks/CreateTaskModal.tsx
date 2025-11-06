@@ -48,7 +48,11 @@ export function CreateTaskModal() {
       <form onSubmit={onSubmit} className="space-y-3">
         <div>
           <label className="mb-1 block text-sm">Title</label>
-          <Input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Task title" />
+          <Input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Task title"
+          />
         </div>
         <div>
           <label className="mb-1 block text-sm">Description</label>
@@ -76,5 +80,3 @@ export function CreateTaskModal() {
     </Modal>
   );
 }
-
-

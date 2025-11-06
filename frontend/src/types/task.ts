@@ -8,5 +8,3 @@ export interface TaskDTO {
   // serialized by backend as ISO string
   createdAt: string;
 }
-
-
