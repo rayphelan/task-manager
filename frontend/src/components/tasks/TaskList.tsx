@@ -9,7 +9,7 @@ import { StatusBadge } from '../ui/Badge';
 
 export function TaskList() {
   const dispatch = useAppDispatch();
-  const { data: tasks, isLoading, isError, refetch } = useGetTasksQuery();
+  const { data: tasks, isLoading, isError, isFetching, refetch } = useGetTasksQuery();
 
   const handleAdd = useCallback(() => dispatch(openCreateModal()), [dispatch]);
   const handleEdit = useCallback((id: string) => dispatch(openEditModal(id)), [dispatch]);
@@ -20,7 +20,15 @@ export function TaskList() {
   return (
     <div className="w-full p-4 text-gray-900 dark:text-gray-100">
       <div className="mb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Tasks</h1>
+        <div className="flex items-center gap-2">
+          <h1 className="text-2xl font-bold">Tasks</h1>
+          {isFetching && !isLoading && (
+            <div className="ml-2 inline-flex items-center gap-2 rounded-full bg-blue-100 px-2 py-1 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300">
+              <Spinner className="h-5 w-5" />
+              <span className="text-xs sm:text-sm font-medium">Refreshing…</span>
+            </div>
+          )}
+        </div>
         <Button onClick={handleAdd}>Add Task</Button>
       </div>
 
