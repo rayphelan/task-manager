@@ -89,6 +89,24 @@ Notes:
 - Vitest is configured with jsdom and React Testing Library in `vite.config.ts`.
 - No backend or Docker is required to run frontend tests.
 
+## Frontend: run app
+
+1. Configure API base URL (optional if using backend default):
+
+```bash
+cd frontend
+cp env.example .env
+# edit .env if your backend is not on http://localhost:3000
+```
+
+2. Start dev server:
+
+```bash
+npm run dev
+```
+
+The app runs at http://localhost:5173 and uses Redux Toolkit + RTK Query for data fetching.
+
 ## MongoDB: verify tasks collection
 
 Ensure the backend has started at least once (it creates/updates the collection schema on startup):
