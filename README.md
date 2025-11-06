@@ -1,5 +1,12 @@
 # Task Manager
 
+Clone the repository and enter the app directory:
+
+```bash
+git clone git@github.com:rayphelan/task-manager.git
+cd task-manager
+```
+
 ## Installation
 
 ### Database (MongoDB)
