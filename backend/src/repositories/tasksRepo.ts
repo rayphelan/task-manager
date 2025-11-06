@@ -71,6 +71,39 @@ export async function updateTaskStatus(id: string, status: TaskStatus): Promise<
   return found ? toTaskDTO(found as WithId<TaskDocument>) : null;
 }
 
+export async function updateTask(
+  id: string,
+  updates: Partial<{ title: string; description?: string; status: TaskStatus }>,
+): Promise<TaskDTO | null> {
+  if (!ObjectId.isValid(id)) return null;
+  const db = getDatabase();
+  const collection = db.collection<TaskDocument>('tasks');
+  const $set: Record<string, unknown> = {};
+  if (Object.prototype.hasOwnProperty.call(updates, 'title') && typeof updates.title === 'string') {
+    $set.title = updates.title;
+  }
+  if (Object.prototype.hasOwnProperty.call(updates, 'description') && typeof updates.description === 'string') {
+    $set.description = updates.description;
+  }
+  if (Object.prototype.hasOwnProperty.call(updates, 'status') && updates.status) {
+    $set.status = updates.status;
+  }
+  if (Object.keys($set).length === 0) return null;
+  const filter = { _id: new ObjectId(id) };
+  const upd = await collection.updateOne(filter, { $set });
+  if (upd.matchedCount === 0) return null;
+  const found = await collection.findOne(filter);
+  return found ? toTaskDTO(found as WithId<TaskDocument>) : null;
+}
+
+export async function deleteTask(id: string): Promise<boolean> {
+  if (!ObjectId.isValid(id)) return false;
+  const db = getDatabase();
+  const collection = db.collection<TaskDocument>('tasks');
+  const res = await collection.deleteOne({ _id: new ObjectId(id) });
+  return res.deletedCount === 1;
+}
+
 function toTaskDTO(doc: WithId<TaskDocument>): TaskDTO {
   return {
     id: doc._id.toString(),

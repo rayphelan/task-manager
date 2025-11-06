@@ -71,6 +71,23 @@ describe('/api/tasks', () => {
     expect(res.body.data.status).toBe('completed');
   });
 
+  it('PATCH updates title/description (200)', async () => {
+    const res = await request(app)
+      .patch(`/api/tasks/${createdId}`)
+      .send({ title: 'Edited Title', description: 'Edited Desc' })
+      .expect(200);
+    expect(res.body.success).toBe(true);
+    expect(res.body.data.title).toBe('Edited Title');
+    expect(res.body.data.description).toBe('Edited Desc');
+  });
+
+  it('DELETE removes a task (200)', async () => {
+    const del = await request(app).delete(`/api/tasks/${createdId}`).expect(200);
+    expect(del.body.success).toBe(true);
+    const gone = await request(app).get(`/api/tasks/${createdId}`).expect(400);
+    expect(gone.body.success).toBe(false);
+  });
+
   it('GET by invalid id returns error (400)', async () => {
     const res = await request(app).get(`/api/tasks/000000000000000000000000`).expect(400);
     expect(res.body.success).toBe(false);

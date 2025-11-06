@@ -1,8 +1,8 @@
 import { Router, type Request, type Response, type NextFunction } from 'express';
 import { created, success } from '../http/responses.js';
 import { badRequest } from '../http/errors.js';
-import { TaskStatusSchema } from '../validation/taskSchemas.js';
-import { createTask, getTaskById, listTasks, updateTaskStatus, validateTaskCreateInput } from '../repositories/tasksRepo.js';
+import { TaskStatusSchema, TaskUpdateInputSchema } from '../validation/taskSchemas.js';
+import { createTask, getTaskById, listTasks, updateTaskStatus, validateTaskCreateInput, updateTask, deleteTask } from '../repositories/tasksRepo.js';
 
 const router = Router();
 
@@ -48,14 +48,25 @@ router.get('/:id', async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
-// PATCH /api/tasks/:id - Update task status
+// PATCH /api/tasks/:id - Update task (title, description, status)
 router.patch('/:id', async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (typeof req.body !== 'object' || req.body == null) throw badRequest('Invalid body');
-    const status = TaskStatusSchema.parse((req.body as { status?: string }).status);
-    const updated = await updateTaskStatus(req.params.id, status);
+    const parsed = TaskUpdateInputSchema.parse(req.body);
+    const updated = await updateTask(req.params.id, parsed);
     if (!updated) throw badRequest('Task not found');
     return success(res, updated);
+  } catch (err) {
+    return next(err);
+  }
+});
+
+// DELETE /api/tasks/:id - Delete task
+router.delete('/:id', async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const ok = await deleteTask(req.params.id);
+    if (!ok) throw badRequest('Task not found');
+    return success(res, { id: req.params.id });
   } catch (err) {
     return next(err);
   }
